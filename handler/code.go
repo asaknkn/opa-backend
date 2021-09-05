@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateCode(config configs.Config) gin.HandlerFunc {
+func CreateCode(config configs.ApiConfig) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		req := newCreateCodeResest()
 
@@ -31,7 +31,7 @@ func newCreateCodeResest() createCodeResest {
 	}
 }
 
-func createCode(orderCode *createCodeResest, config configs.Config) (*createCodeResponse, error) {
+func createCode(orderCode *createCodeResest, config configs.ApiConfig) (*createCodeResponse, error) {
 	method := "POST"
 	path := "/v2/codes"
 	url := config.BASEURL + path

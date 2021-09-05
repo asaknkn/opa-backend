@@ -47,7 +47,7 @@ func DoHttpRequest(method, url string, header, query map[string]string, data []b
 	return body, nil
 }
 
-func GetHeader(method, path string, body []byte, config configs.Config) (map[string]string, error) {
+func GetHeader(method, path string, body []byte, config configs.ApiConfig) (map[string]string, error) {
 	// md5
 	contentType := "empty"
 	hash := "empty"

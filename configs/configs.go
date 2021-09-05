@@ -6,8 +6,8 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-func NewConfig() (Config, error) {
-	var config Config
+func NewConfig() (ApiConfig, error) {
+	var config ApiConfig
 	err := envconfig.Process("OPA", &config)
 	if err != nil {
 		log.Fatalf("Fail to load config wiht env : %v", err)
@@ -16,7 +16,7 @@ func NewConfig() (Config, error) {
 	return config, nil
 }
 
-type Config struct {
+type ApiConfig struct {
 	ApiKey         string `envconfig:"APIKEY" split_words:"true"`
 	ApiSecret      string `envconfig:"APISECRET" split_words:"true"`
 	BASEURL        string `envconfig:"BASEURL" split_words:"true"`
