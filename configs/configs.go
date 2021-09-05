@@ -20,5 +20,5 @@ type ApiConfig struct {
 	ApiKey         string `envconfig:"APIKEY" split_words:"true"`
 	ApiSecret      string `envconfig:"APISECRET" split_words:"true"`
 	BASEURL        string `envconfig:"BASEURL" split_words:"true"`
-	ASSUMEMERCHANT string `envconfig:"ASSUMEMERCHANT" split_words:"true"`
+	ASSUMEMERCHANT string `envconfig:"ASSUMEMERCHANT" split_words:"true" default:""`
 }

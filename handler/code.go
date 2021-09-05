@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"net/http"
 	"opa-backend/configs"
 	"opa-backend/utils"
 
@@ -10,26 +11,33 @@ import (
 
 func CreateCode(config configs.ApiConfig) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		req := newCreateCodeResest()
+
+		var req createCodeResest
+		err := c.ShouldBindJSON(&req)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		//req := newCreateCodeResest()
 
 		code, err := createCode(&req, config)
 		if err != nil {
-			c.JSON(400, code)
+			c.JSON(http.StatusBadRequest, code)
 		}
-		c.JSON(200, code)
+		c.JSON(http.StatusCreated, code)
 	}
 }
 
-func newCreateCodeResest() createCodeResest {
-	return createCodeResest{
-		MerchantPaymentID: "1234678",
-		Amount: amount{
-			Amount:   100,
-			Currency: "JPY",
-		},
-		CodeType: "ORDER_QR",
-	}
-}
+// func newCreateCodeResest() createCodeResest {
+// 	return createCodeResest{
+// 		MerchantPaymentID: "1234678",
+// 		Amount: amount{
+// 			Amount:   100,
+// 			Currency: "JPY",
+// 		},
+// 		CodeType: "ORDER_QR",
+// 	}
+// }
 
 func createCode(orderCode *createCodeResest, config configs.ApiConfig) (*createCodeResponse, error) {
 	method := "POST"
