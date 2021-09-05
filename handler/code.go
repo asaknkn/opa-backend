@@ -12,9 +12,6 @@ func CreateCode(config configs.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		req := newCreateCodeResest()
 
-		// apiKey := goenv.ApiKey
-		// apiSecret := goenv.ApiSecret
-
 		code, err := createCode(&req, config)
 		if err != nil {
 			c.JSON(400, code)
@@ -43,7 +40,10 @@ func createCode(orderCode *createCodeResest, config configs.Config) (*createCode
 		return nil, err
 	}
 
-	header := utils.GetHeader(method, path, data, config)
+	header, err := utils.GetHeader(method, path, data, config)
+	if err != nil {
+		return nil, err
+	}
 	query := map[string]string{
 		"assumeMerchant": config.ASSUMEMERCHANT,
 	}
