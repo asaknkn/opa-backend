@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"opa-backend/configs"
 	"strconv"
 	"strings"
 	"time"
@@ -53,7 +54,7 @@ func DoHttpRequest(method, url string, header, query map[string]string, data []b
 	return body, nil
 }
 
-func GetHeader(method, path, apiKey, apiSecret string, body []byte) map[string]string {
+func GetHeader(method, path string, body []byte, config configs.Config) map[string]string {
 
 	// md5
 	contentType := "empty"
@@ -116,6 +117,8 @@ func GetHeader(method, path, apiKey, apiSecret string, body []byte) map[string]s
 	fmt.Println("#### hmacData ####")
 	fmt.Println(string(hmacData))
 
+	apiKey := config.ApiKey
+	apiSecret := config.ApiSecret
 	mac := hmac.New(sha256.New, []byte(apiSecret))
 	mac.Write(hmacData)
 	macData := base64.StdEncoding.EncodeToString(mac.Sum(nil))

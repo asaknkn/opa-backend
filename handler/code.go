@@ -2,22 +2,20 @@ package handler
 
 import (
 	"encoding/json"
+	"opa-backend/configs"
 	"opa-backend/utils"
 
 	"github.com/gin-gonic/gin"
-	"github.com/kelseyhightower/envconfig"
 )
 
-func CreateCode() gin.HandlerFunc {
+func CreateCode(config configs.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		req := newCreateCodeResest()
 
-		var goenv Env
-		envconfig.Process("OPA", &goenv)
-		apiKey := goenv.ApiKey
-		apiSecret := goenv.ApiSecret
+		// apiKey := goenv.ApiKey
+		// apiSecret := goenv.ApiSecret
 
-		code, err := createCode(&req, apiKey, apiSecret)
+		code, err := createCode(&req, config)
 		if err != nil {
 			c.JSON(400, code)
 		}
@@ -36,18 +34,18 @@ func newCreateCodeResest() createCodeResest {
 	}
 }
 
-func createCode(orderCode *createCodeResest, apiKey, apiSecret string) (*createCodeResponse, error) {
+func createCode(orderCode *createCodeResest, config configs.Config) (*createCodeResponse, error) {
 	method := "POST"
 	path := "/v2/codes"
-	url := "https://stg-api.sandbox.paypay.ne.jp" + path
+	url := config.BASEURL + path
 	data, err := json.Marshal(orderCode)
 	if err != nil {
 		return nil, err
 	}
 
-	header := utils.GetHeader(method, path, apiKey, apiSecret, data)
+	header := utils.GetHeader(method, path, data, config)
 	query := map[string]string{
-		"assumeMerchant": "407910645125136384",
+		"assumeMerchant": config.ASSUMEMERCHANT,
 	}
 	res, err := utils.DoHttpRequest(method, url, header, query, data)
 	if err != nil {
@@ -79,11 +77,6 @@ func createCode(orderCode *createCodeResest, apiKey, apiSecret string) (*createC
 // 	IsAuthorization     bool        `json:"isAuthorization"`
 // 	AuthorizationExpiry int         `json:"authorizationExpiry"`
 // }
-
-type Env struct {
-	ApiKey    string `envconfig:"APIKEY" split_words:"true"`
-	ApiSecret string `envconfig:"APISECRET" split_words:"true"`
-}
 
 type createCodeResest struct {
 	MerchantPaymentID string `json:"merchantPaymentId"`
