@@ -16,10 +16,10 @@ import (
 	"time"
 )
 
-func DoHttpRequest(method, url string, header, query map[string]string, data []byte) ([]byte, error) {
+func DoHttpRequest(method, url string, header, query map[string]string, data []byte) (int, []byte, error) {
 	req, err := http.NewRequest(method, url, bytes.NewBuffer(data))
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
 
 	q := req.URL.Query()
@@ -35,16 +35,15 @@ func DoHttpRequest(method, url string, header, query map[string]string, data []b
 	httpClient := &http.Client{}
 	res, err := httpClient.Do(req)
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
 	defer res.Body.Close()
 
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return nil, err
+		return 0, nil, err
 	}
-
-	return body, nil
+	return res.StatusCode, body, nil
 }
 
 func GetHeader(method, path string, body []byte, config configs.ApiConfig) (map[string]string, error) {

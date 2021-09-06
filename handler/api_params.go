@@ -32,14 +32,17 @@ type amount struct {
 }
 
 type orderItem struct {
-	Name      string    `json:"name"`
-	Category  string    `json:"category"`
-	Quantity  string    `json:"quantity"`
-	ProductID string    `json:"productId"`
-	UnitPrice unitPrice `json:"unit_price"`
+	Name      string `json:"name"`
+	Category  string `json:"category"`
+	Quantity  int    `json:"quantity"`
+	ProductID string `json:"productId"`
+	UnitPrice amount `json:"unit_price"`
 }
 
-type unitPrice struct {
-	Amount   int    `json:"amount"`
-	Currency string `json:"currency"`
+type orderRequestItem struct {
+	Name      string `json:"name"`
+	Category  string `json:"category"`
+	Quantity  int    `json:"quantity"`
+	ProductID string `json:"productId"`
+	UnitPrice amount `json:"unitPrice"`
 }
