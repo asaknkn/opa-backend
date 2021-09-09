@@ -16,5 +16,6 @@ func main() {
 
 	r := gin.Default()
 	r.POST("/v2/codes", handler.CreateCode(config))
+	r.GET("/v2/codes/payments/:merchantPaymentId", handler.GetCode(config))
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

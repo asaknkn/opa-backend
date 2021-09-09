@@ -43,6 +43,8 @@ func DoHttpRequest(method, url string, header, query map[string]string, data []b
 	if err != nil {
 		return 0, nil, err
 	}
+	fmt.Println("#### responsBody ####")
+	fmt.Println(string(body))
 	return res.StatusCode, body, nil
 }
 

@@ -21,9 +21,6 @@ func CreateCode(config configs.ApiConfig) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		fmt.Println("#### requestParameters ####")
-		fmt.Println(req)
-		//req := newCreateCodeResest()
 
 		statusCode, code, err := createCode(&req, config)
 		if err != nil {
@@ -81,6 +78,26 @@ type createCodeResest struct {
 }
 
 type createCodeResponse struct {
-	ResultInfo resultInfo `json:"resultInfo"`
-	Data       data       `json:"data"`
+	ResultInfo resultInfo             `json:"resultInfo"`
+	Data       createCodeResponseData `json:"data"`
+}
+
+type createCodeResponseData struct {
+	CodeID              string      `json:"codeId"`
+	Url                 string      `json:"url"`
+	Deeplink            string      `json:"deeplink"`
+	ExpiryDate          int         `json:"expiryDate"`
+	MerchantPaymentId   string      `json:"merchantPaymentId"`
+	Amount              amount      `json:"amount"`
+	OrderDescription    string      `json:"orderDescription"`
+	OrderItems          []orderItem `json:"orderItems"`
+	CodeType            string      `json:"codeType"`
+	StoreInfo           string      `json:"storeInfo"`
+	StoreID             string      `json:"storeId"`
+	TerminalID          string      `json:"terminalId"`
+	RequestedAt         int         `json:"requestedAt"`
+	RedirectUrl         string      `json:"redirectUrl"`
+	RedirectType        string      `json:"redirectType"`
+	IsAuthorization     bool        `json:"isAuthorization"`
+	AuthorizationExpiry int         `json:"authorizationExpiry"`
 }

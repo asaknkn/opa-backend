@@ -6,26 +6,6 @@ type resultInfo struct {
 	CodeID  string `json:"codeId"`
 }
 
-type data struct {
-	CodeID              string      `json:"codeId"`
-	Url                 string      `json:"url"`
-	Deeplink            string      `json:"deeplink"`
-	ExpiryDate          int         `json:"expiryDate"`
-	MerchantPaymentId   string      `json:"merchantPaymentId"`
-	Amount              amount      `json:"amount"`
-	OrderDescription    string      `json:"orderDescription"`
-	OrderItems          []orderItem `json:"orderItems"`
-	CodeType            string      `json:"codeType"`
-	StoreInfo           string      `json:"storeInfo"`
-	StoreID             string      `json:"storeId"`
-	TerminalID          string      `json:"terminalId"`
-	RequestedAt         int         `json:"requestedAt"`
-	RedirectUrl         string      `json:"redirectUrl"`
-	RedirectType        string      `json:"redirectType"`
-	IsAuthorization     bool        `json:"isAuthorization"`
-	AuthorizationExpiry int         `json:"authorizationExpiry"`
-}
-
 type amount struct {
 	Amount   int    `json:"amount"`
 	Currency string `json:"currency"`
@@ -45,4 +25,39 @@ type orderRequestItem struct {
 	Quantity  int    `json:"quantity"`
 	ProductID string `json:"productId"`
 	UnitPrice amount `json:"unitPrice"`
+}
+
+type refunds struct {
+	Data []refund `json:"data"`
+}
+
+type refund struct {
+	Status           string `json:"status"`
+	AcceptedAt       int    `json:"acceptedAt"`
+	MerchantRefundId string `json:"merchantRefundId"`
+	PaymentId        string `json:"paymentId"`
+	Amount           amount `json:"amount"`
+	RequestedAt      int    `json:"requestedAt"`
+	Reason           string `json:"reason"`
+}
+
+type captures struct {
+	Data []capture `json:"data"`
+}
+
+type capture struct {
+	AcceptedAt        int    `json:"acceptedAt"`
+	MerchantCaptureId string `json:"merchantCaptureId"`
+	Amount            amount `json:"amount"`
+	OrderDescription  string `json:"orderDescription"`
+	RequestedAt       int    `json:"requestedAt"`
+	ExpiresAt         int    `json:"expiresAt"`
+	Status            string `json:"status"`
+}
+
+type revert struct {
+	AcceptedAt       int    `json:"acceptedAt"`
+	MerchantRevertId string `json:"merchantRevertId"`
+	RequestedAt      int    `json:"requestedAt"`
+	Reason           string `json:"reason"`
 }
