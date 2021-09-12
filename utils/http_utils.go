@@ -111,3 +111,17 @@ func newNonce(d int) (string, error) {
 	}
 	return result, nil
 }
+
+func GetQuery(assumeMerchant string) map[string]string {
+	var query map[string]string
+
+	if assumeMerchant != "" {
+		query = map[string]string{
+			"assumeMerchant": assumeMerchant,
+		}
+	} else {
+		query = nil
+	}
+
+	return query
+}

@@ -31,9 +31,9 @@ func getCode(merchantPaymentId string, config configs.ApiConfig) (int, *getCodeR
 	if err != nil {
 		return 0, nil, err
 	}
-	query := map[string]string{
-		"assumeMerchant": config.ASSUMEMERCHANT,
-	}
+
+	query := utils.GetQuery(config.ASSUMEMERCHANT)
+
 	statusCode, res, err := utils.DoHttpRequest(method, url, header, query, nil)
 	if err != nil {
 		return 0, nil, err

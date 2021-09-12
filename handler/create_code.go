@@ -13,7 +13,7 @@ import (
 func CreateCode(config configs.ApiConfig) gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		var req createCodeResest
+		var req createCodeRequest
 		err := c.ShouldBindJSON(&req)
 		if err != nil {
 			fmt.Println("#### erro bind json ####")
@@ -30,7 +30,7 @@ func CreateCode(config configs.ApiConfig) gin.HandlerFunc {
 	}
 }
 
-func createCode(orderCode *createCodeResest, config configs.ApiConfig) (int, *createCodeResponse, error) {
+func createCode(orderCode *createCodeRequest, config configs.ApiConfig) (int, *createCodeResponse, error) {
 	method := "POST"
 	path := "/v2/codes"
 	url := config.BASEURL + path
@@ -43,9 +43,9 @@ func createCode(orderCode *createCodeResest, config configs.ApiConfig) (int, *cr
 	if err != nil {
 		return 0, nil, err
 	}
-	query := map[string]string{
-		"assumeMerchant": config.ASSUMEMERCHANT,
-	}
+
+	query := utils.GetQuery(config.ASSUMEMERCHANT)
+
 	statusCode, res, err := utils.DoHttpRequest(method, url, header, query, data)
 	if err != nil {
 		return 0, nil, err
@@ -60,7 +60,7 @@ func createCode(orderCode *createCodeResest, config configs.ApiConfig) (int, *cr
 	return statusCode, &code, nil
 }
 
-type createCodeResest struct {
+type createCodeRequest struct {
 	MerchantPaymentID   string             `json:"merchantPaymentId" validate:"required"`
 	Amount              amount             `json:"amount" validate:"required"`
 	OrderDescription    string             `json:"orderDescription,omitempty"`
