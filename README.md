@@ -17,7 +17,7 @@ export OPA_ASSUMEMERCHANT=The Merchant Identifier
 ```
 
 # How to Build a Container
-Recommend [Visual Studio Code](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container)
+Recommend [VSCode Remote Container](https://code.visualstudio.com/docs/remote/containers#_quick-start-open-an-existing-folder-in-a-container)
 
 
 # How to Run the API Server
